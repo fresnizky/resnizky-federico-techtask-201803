@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  web:
+    build:
+      context: ./
+      dockerfile: web.docker
+    volumes:
+      - ${PWD}:/var/www
+    ports:
+      - "80:80"
+    links:
+      - app
+  app:
+    image: php:7-fpm
+    volumes:
+      - ${PWD}:/var/www
