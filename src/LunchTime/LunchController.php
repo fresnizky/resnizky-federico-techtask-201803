@@ -19,8 +19,6 @@ class LunchController {
     $this->getValidIngredients();
     $this->availableRecipes = $this->getAvailableRecipes();
 
-    print_r($this->availableRecipes);
-    //return print_r(array_column($this->ingredients, 'title'));
   }
 
   protected function getValidIngredients() {
@@ -36,9 +34,9 @@ class LunchController {
   protected function getAvailableRecipes() {
     $availableRecipes = [];
     foreach ($this->recipes['recipes'] as $recipe) {
-        if (!empty(array_diff($recipe['ingredients'], array_column($this->ingredients, 'title')))) {
+        if (empty(array_diff($recipe['ingredients'], array_column($this->ingredients, 'title')))) {
             $availableRecipes[] = $recipe;
-        } 
+        }
     }
 
     return $availableRecipes;
