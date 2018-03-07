@@ -19,6 +19,9 @@ class LunchController {
     $this->getValidIngredients();
     $this->availableRecipes = $this->getAvailableRecipes();
 
+    $this->sortRecipes();
+
+    return "You can make: " . implode(array_column($this->availableRecipes, 'title'), ", ");
   }
 
   protected function getValidIngredients() {
@@ -40,5 +43,18 @@ class LunchController {
     }
 
     return $availableRecipes;
+  }
+
+  protected function sortRecipes() {
+    foreach ($this->availableRecipes as $idx => $recipe) {
+        $this->availableRecipes[$idx]['best-before'] = '9999-99-99';
+        foreach ($this->ingredients as $ingredient) {
+            if (in_array($ingredient['title'], $this->availableRecipes[$idx]['ingredients'])) {
+                if ($ingredient['best-before'] < $this->availableRecipes[$idx]['best-before']) {
+                    $this->availableRecipes[$idx]['best-before'] = $ingredient['best-before'];
+                }
+            }
+        }
+    }
   }
 }
