@@ -56,5 +56,9 @@ class LunchController {
             }
         }
     }
+
+    usort($this->availableRecipes, function($a, $b) {
+        return ($a['best-before'] > $b['best-before']) ? -1 : 1;
+    });
   }
 }
